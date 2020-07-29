@@ -158,6 +158,14 @@ module.exports = {
 
     // =============================================================================================
     {
+      resolve: 'gatsby-plugin-brotli',
+      options: {
+        extensions: ['css', 'html', 'js'],
+      },
+    },
+
+    // =============================================================================================
+    {
       resolve: "gatsby-plugin-s3",
       options: {
         bucketName: siteMetadata.s3.bucket,
