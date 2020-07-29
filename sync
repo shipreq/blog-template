@@ -1,0 +1,28 @@
+#!/bin/bash
+set -euo pipefail
+
+cd "$(dirname "$0")"
+tgt="$(pwd)"
+cd "$sqb"
+
+tmp=/tmp/$(date +%Y%m%d-%H%M%S)-$$.zip
+
+git ls-files \
+  | fgrep -v .vscode \
+  | fgrep -v content/posts \
+  | fgrep -v src/config/types.ts \
+  | grep -v src/components/.....t...\.tsx \
+  | fgrep -v terraform \
+  | egrep -v '[^/]+\.md$' \
+  | sort \
+  | xargs zip -9qr $tmp
+
+cd "$tgt"
+unzip -o $tmp
+rm $tmp
+
+sed -i -e '
+  /"description"/d;
+  s/"shipreq-blog"/"shipreq-blog-template"/;
+' package.json
+
